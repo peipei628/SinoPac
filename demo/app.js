@@ -106,7 +106,7 @@ const LEVELS = {
   monthly: {t:'每月分類總額', kid:'每月分類總額'}
 };
 const DEFAULT_LEVEL = age => age <= 12 ? 'detail' : age <= 15 ? 'store' : 'monthly';
-const JAR_PRESETS = [[20, 70, 10], [30, 60, 10], [50, 40, 10]];
+const JAR_PRESETS = [[50, 40, 10], [30, 60, 10], [20, 70, 10]];
 const BUDGETS = [180, 240, 300];
 const NOTE_CHIPS = ['我們之後一起再開始', '這個月先暫停一下', '你存得很棒，繼續加油'];
 const DECLINE_NOTE = {withdraw:'先存到目標再說喔！', big:'我們先一起討論看看', payee:'這個買家怪怪的，先不要轉'};
@@ -117,7 +117,7 @@ function initState() {
     ch:'home', kidView:'home', parView:'allowance', walletTab:'log',
     age:12, viewLevel:'detail',
     // 日常錢包
-    balance:320, budget:240, weekSpent:60, jars:[20, 70, 10], shareJar:40,
+    balance:320, budget:240, weekSpent:60, jars:[50, 40, 10], shareJar:40,
     allowance:{on:true, amount:300, paused:false, pauseFor:''},
     family:['外婆', '外公'],
     tx:[
@@ -415,7 +415,7 @@ function kidHome(d) {
     <div class="jars">
       <button class="jar save" data-act="kv" data-arg="dream"><span class="jn t-blue">儲蓄 ${s.jars[0]}%</span><span class="jp t-blue">${d.progress}%</span><span class="jd">存進${s.goal.name}</span></button>
       <button class="jar spend" data-act="kv" data-arg="wallet"><span class="jn t-green">消費 ${s.jars[1]}%</span><span class="jp t-green">$${fmt(s.balance)}</span><span class="jd">可以用的錢</span></button>
-      <div class="jar share"><span class="jn t-pink">分享 ${s.jars[2]}%</span><span class="jp t-pink">$${fmt(s.shareJar)}</span><span class="jd">送禮或捐款（之後開放）</span></div>
+      <div class="jar share"><span class="jn t-pink">分享 ${s.jars[2]}%</span><span class="jp t-pink">$${fmt(s.shareJar)}</span><span class="jd">預留分享金・用途可和爸媽討論</span></div>
     </div>
     <button class="card c-blue" data-act="kv" data-arg="dream">
       <div class="row sb" style="width:100%"><span class="h3 t-blue">${ic('star', 'width:16px;height:16px;display:inline;vertical-align:-3px')} ${s.goal.name}</span><span class="h3 t-blue">${d.progress}%</span></div>
@@ -596,7 +596,7 @@ function kidWallet(d) {
   if (tab === 'set') return head + `
     <div class="card"><span class="h3">三罐子分配</span><span class="xs">零用錢入帳時自動分配</span>
       <div class="col" style="gap:6px;margin-top:4px">${JAR_PRESETS.map((p, i) => `<button class="opt ${String(s.jars) === String(p) ? 'right' : ''}" data-act="setJars" data-arg="${i}">儲蓄 ${p[0]}%・消費 ${p[1]}%・分享 ${p[2]}%</button>`).join('')}</div>
-      <span class="xs" style="line-height:1.6">儲蓄罐的錢會直接存進「${s.goal.name}」。</span></div>
+      <span class="xs" style="line-height:1.6">儲蓄罐的錢會直接存進「${s.goal.name}」；分享罐是預留金額，不會自動捐款，可和爸媽討論如何使用。</span></div>
     <div class="card"><span class="h3">每週預算</span><span class="xs">一週打算花多少，超過前會提醒你</span>
       <div class="chips">${BUDGETS.map(b => `<button class="chip ${s.budget === b ? 'on' : ''}" data-act="setBudget" data-arg="${b}">$${b}</button>`).join('')}</div></div>`;
   const rows = ['今天', '週一', '上週'].map(w => {
